@@ -71,11 +71,11 @@ namespace AutofacSamples
         public static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<EmailLog>().As<ILog>();
-            builder.RegisterType<ConsoleLog>().As<ILog>().PreserveExistingDefaults();
-            //autofac will look at the last component that satisfies the interface
-            //here you will get the consoleLog only
-            builder.RegisterType<Engine>();
+            //builder.RegisterType<ConsoleLog>().As<ILog>();
+            //instead of creating a ConsoleLog object every time
+            //we want to have a single object to get 
+            var log = new ConsoleLog();
+            builder.RegisterInstance(log).As<ILog>();
             builder.RegisterType<Car>().UsingConstructor(typeof(Engine));
 
             IContainer a = builder.Build();
