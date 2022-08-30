@@ -76,25 +76,15 @@ namespace AutofacSamples
         public static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<ConsoleLog>().As<ILog>();
-            builder.Register((IComponentContext c) =>
-              new Engine(c.Resolve<ILog>(), 123));
-            //now every time we call engine we get a new object with an id
-            //which is always 123
-            //actually you specify which constructor you want and you specify it 
-            //using a lambda
-            builder.RegisterType<Car>();
+
+
+            builder.RegisterGeneric(typeof(List<>)).As(typeof(IList<>));
 
             IContainer a = builder.Build();
 
-            var b = a.Resolve<Car>();
-            b.Go();
+            var b = a.Resolve<IList<int>>();
+            Console.WriteLine(b.GetType());
             Console.ReadKey();
-
-            //var log = new ConsoleLog();
-            //var engine = new Engine(log);
-            //var car = new Car(engine, log);
-            //car.Go();
         }
     }
 }
