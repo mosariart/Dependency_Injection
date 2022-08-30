@@ -27,6 +27,11 @@ namespace AutofacSamples
             this.log = log;
             id = new Random().Next();
         }
+        public Engine(ILog log, int id)
+        {
+            this.log = log;
+            this.id = id;
+        }
 
         public void Ahead(int power)
         {
@@ -71,12 +76,12 @@ namespace AutofacSamples
         public static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
-            //builder.RegisterType<ConsoleLog>().As<ILog>();
-            //instead of creating a ConsoleLog object every time
-            //we want to have a single object to get 
-            var log = new ConsoleLog();
-            builder.RegisterInstance(log).As<ILog>();
-            builder.RegisterType<Car>().UsingConstructor(typeof(Engine));
+            builder.RegisterType<ConsoleLog>().As<ILog>();
+            builder.Register((IComponentContext c) =>
+              new Engine(c.Resolve<ILog>(), 123));
+            //now every time we call engine we get a new object with an id
+            //which is always 123
+            builder.RegisterType<Car>();
 
             IContainer a = builder.Build();
 
