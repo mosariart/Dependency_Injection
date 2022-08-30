@@ -81,6 +81,8 @@ namespace AutofacSamples
               new Engine(c.Resolve<ILog>(), 123));
             //now every time we call engine we get a new object with an id
             //which is always 123
+            //actually you specify which constructor you want and you specify it 
+            //using a lambda
             builder.RegisterType<Car>();
 
             IContainer a = builder.Build();
