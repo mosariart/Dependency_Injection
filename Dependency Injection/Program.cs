@@ -52,13 +52,25 @@ namespace AutofacSamples
         }
     }
 
+    public class EmailLog : ILog
+    {
+        private string EmailAddress = "Addmin@foo.com";
+        public void Write(string message)
+        {
+            Console.WriteLine($"email sent to {EmailAddress} with {message} content");
+        }
+    }
+
     internal class Program
     {
         public static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<ConsoleLog>().As<ILog>().AsSelf();
-            //builder.RegisterType<Engine>();
+            builder.RegisterType<EmailLog>().As<ILog>();
+            builder.RegisterType<ConsoleLog>().As<ILog>().PreserveExistingDefaults();
+            //autofac will look at the last component that satisfies the interface
+            //here you will get the consoleLog only
+            builder.RegisterType<Engine>();
             builder.RegisterType<Car>();
 
             IContainer a = builder.Build();
