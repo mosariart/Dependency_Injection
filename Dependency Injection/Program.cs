@@ -39,6 +39,11 @@ namespace AutofacSamples
         private Engine engine;
         private ILog log;
 
+        public Car(Engine engine)
+        {
+            this.engine = engine;
+            this.log = new EmailLog();
+        }
         public Car(Engine engine, ILog log)
         {
             this.engine = engine;
@@ -71,7 +76,7 @@ namespace AutofacSamples
             //autofac will look at the last component that satisfies the interface
             //here you will get the consoleLog only
             builder.RegisterType<Engine>();
-            builder.RegisterType<Car>();
+            builder.RegisterType<Car>().UsingConstructor(typeof(Engine));
 
             IContainer a = builder.Build();
 
