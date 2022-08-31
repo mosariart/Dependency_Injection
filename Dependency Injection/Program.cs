@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using System;
 using System.Collections.Generic;
 
@@ -70,21 +71,39 @@ namespace AutofacSamples
             Console.WriteLine($"email sent to {EmailAddress} with {message} content");
         }
     }
+    public class SMSLog : ILog
+    {
+        public string phoneNumber;
+        public SMSLog(string PhoneNumber)
+        {
+            phoneNumber = PhoneNumber;
+        }
+        public void Write(string message)
+        {
+            Console.WriteLine($"SMS to {phoneNumber} and message is {message}");
+        }
+    }
 
     internal class Program
     {
         public static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
+            //named parameter
+            builder.RegisterType<SMSLog>()
+                .As<ILog>()
+                .WithParameter("phoneNumber", "+123345456");
 
+            //typed parameter
+            builder.RegisterType<SMSLog>()
+                .WithParameter(new TypedParameter(typeof(string), "+123345456"));
 
-            builder.RegisterGeneric(typeof(List<>)).As(typeof(IList<>));
-
-            IContainer a = builder.Build();
-
-            var b = a.Resolve<IList<int>>();
-            Console.WriteLine(b.GetType());
-            Console.ReadKey();
+            //resolved parameter
+            builder.RegisterType<SMSLog>()
+                .WithParameter(
+                new ResolvedParameter(
+                    (pi,ctx)=> pi.ParameterType == typeof(string) && pi.Name =="phoneNumber",
+                    (pi,ctx)=> "+123345456"));
         }
     }
 }
