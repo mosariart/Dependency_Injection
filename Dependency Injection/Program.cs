@@ -9,25 +9,15 @@ namespace AutofacSamples
     {
         public static void Main(string[] args)
         {
+            //delegate factories allow you to create objects on demand
             var cb = new ContainerBuilder();
-            cb.RegisterType<Service>();
-            cb.RegisterType<DomainObject>();
+            cb.RegisterType<Entity>().InstancePerDependency();
+            cb.RegisterType<ViewModel>();
 
             var container = cb.Build();
-            //Now we want to build a domainobject,if you look at the DomainObject
-            //you will see that Serive in the constructor will be injected automatically
-            //but we have to provide the value manually
-
-
-            //But generally this is not a good way to do it 
-            //var dobj = container.Resolve<DomainObject>(new PositionalParameter(1, 42));
-            //Console.WriteLine(dobj);
-
-            //we can avoid this using delegate factories
-            //in this stage i will add the delegate to the DomainObject class
-            var factory = container.Resolve<DomainObject.Factory>();
-            var dobj2 = factory(42);
-            Console.WriteLine(dobj2);
+            var vm = container.Resolve<ViewModel>();
+            vm.Method();
+            vm.Method();
             Console.ReadKey();
         }
     }

@@ -75,7 +75,9 @@
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Engine.cs" />
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
