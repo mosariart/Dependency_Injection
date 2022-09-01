@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6B4FBEF1-E4F9-4F9A-96E2-DC754B25AD88}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Dependency_Injection</RootNamespace>
+    <RootNamespace>AutofacSamples</RootNamespace>
     <AssemblyName>Dependency Injection</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -73,9 +73,11 @@
     <Compile Include="ILog\ILog.cs" />
     <Compile Include="ILog\SMSLog.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Child.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Engine.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Parent.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Program.cs" />
