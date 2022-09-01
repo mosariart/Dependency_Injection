@@ -9,44 +9,26 @@ namespace AutofacSamples
     {
         public static void Main(string[] args)
         {
-            var builder = new ContainerBuilder();
+            var cb = new ContainerBuilder();
+            cb.RegisterType<Service>();
+            cb.RegisterType<DomainObject>();
+
+            var container = cb.Build();
+            //Now we want to build a domainobject,if you look at the DomainObject
+            //you will see that Serive in the constructor will be injected automatically
+            //but we have to provide the value manually
 
 
-            
-            //builder.RegisterType<EmailLog>().As<ILog>();
-            //builder.RegisterType<ConsoleLog>().As<ILog>().PreserveExistingDefaults();
-            
+            //But generally this is not a good way to do it 
+            //var dobj = container.Resolve<DomainObject>(new PositionalParameter(1, 42));
+            //Console.WriteLine(dobj);
 
-            builder.RegisterType<Engine>();
-            builder.RegisterType<Car>();
-
-
-
-            //named parameter
-            //builder.RegisterType<SMSLog>()
-            //    .As<ILog>()
-            //    .WithParameter("phoneNumber", "+123345456");
-
-            //typed parameter
-            //builder.RegisterType<SMSLog>()
-            //    .As<ILog>()
-            //    .WithParameter(new TypedParameter(typeof(string), "+123345456"));
-
-            //resolved parameter
-            builder.RegisterType<SMSLog>()
-                .As<ILog>()
-                .WithParameter(
-                new ResolvedParameter(
-                    (pi, ctx) => pi.ParameterType == typeof(string) && pi.Name == "PhoneNumber",
-                    (pi, ctx) => "+123345456"));
-
-            
-            var container = builder.Build();
-            var log = container.Resolve<ILog>();
-            log.Write("text message");
-
+            //we can avoid this using delegate factories
+            //in this stage i will add the delegate to the DomainObject class
+            var factory = container.Resolve<DomainObject.Factory>();
+            var dobj2 = factory(42);
+            Console.WriteLine(dobj2);
             Console.ReadKey();
-
         }
     }
 }

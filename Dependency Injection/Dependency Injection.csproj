@@ -73,7 +73,9 @@
     <Compile Include="ILog\ILog.cs" />
     <Compile Include="ILog\SMSLog.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Engine.cs" />
+    <Compile Include="Models\Service.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
